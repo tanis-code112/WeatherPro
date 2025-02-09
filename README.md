@@ -89,9 +89,6 @@ WeatherPro is a modern, responsive weather dashboard that provides real-time wea
 4. Push to the branch
 5. Open a pull request
 
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Acknowledgments
 - Weather data provided by [WeatherAPI](https://www.weatherapi.com/)
 - News data provided by [NewsAPI](https://newsapi.org/)
