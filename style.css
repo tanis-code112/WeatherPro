@@ -1,0 +1,280 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Use Roboto font */
+body {
+  height: 100vh;
+  /* Fresh blue linear gradient background */
+  background: linear-gradient(135deg, rgb(47,150,163), rgb(48,62,143));
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 1s ease-in-out;
+}
+
+/* Container for video background and content */
+.container {
+  position: relative;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+}
+
+/* Video background styling */
+#bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  filter: brightness(0.65);
+}
+
+/* Content overlay styling */
+.content {
+  position: relative;
+  z-index: 2;
+  padding: 30px;
+  text-align: center;
+  background: rgba(0,0,0,0.35);
+  animation: fadeIn 1s ease-out;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header styling with extra spacing */
+.header {
+  margin-bottom: 40px;
+}
+.header h1 {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.header p {
+  font-size: 18px;
+  color: #e0e0e0;
+}
+
+/* Clock styling */
+#clock {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* City search styling */
+.city-search {
+  margin-bottom: 30px;
+  position: relative;
+}
+#city-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+}
+#suggestions {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  color: #303E8F;
+  border-radius: 5px;
+  z-index: 10;
+  max-height: 150px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+}
+.suggestion-item:hover {
+  background: #f0f0f0;
+}
+
+/* Location section styling */
+.location {
+  margin-bottom: 20px;
+}
+.location-timezone {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+#weather-icon {
+  width: 90px;
+  height: 90px;
+  transition: transform 0.3s;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+/* Rain animation for rainy weather */
+.rainy {
+  animation: rainFall 0.5s infinite;
+}
+@keyframes rainFall {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+/* Temperature section styling */
+.temperature {
+  margin-bottom: 20px;
+}
+.degree-section {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.temperature-degree {
+  font-size: 52px;
+  font-weight: 700;
+}
+#temperature-unit {
+  font-size: 24px;
+  margin-left: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+#temperature-unit:hover {
+  transform: scale(1.1);
+}
+.temperature-description {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+/* Air quality section styling (simplified) */
+.air-quality {
+  margin-top: 20px;
+}
+.air-quality h3 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+.air-quality p {
+  font-size: 16px;
+  background: rgba(255,255,255,0.1);
+  padding: 8px;
+  border-radius: 5px;
+}
+
+/* Refresh button styling with creative hover animation */
+#refresh-btn {
+  margin-top: 25px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: #fff;
+  color: #303E8F;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+#refresh-btn:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05) rotate(2deg);
+}
+
+/* News section styling */
+.news-section {
+  margin-top: 30px;
+  text-align: left;
+}
+.news-section h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+#news {
+  font-size: 16px;
+  background: rgba(255,255,255,0.1);
+  padding: 8px;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.news-item {
+  margin-bottom: 10px;
+}
+.news-item a {
+  color: #fff;
+  text-decoration: none;
+}
+.news-item a:hover {
+  text-decoration: underline;
+}
+
+/* Modal popup styling with creative messaging */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+.modal-content {
+  background: #fff;
+  color: #303E8F;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 90%;
+}
+#modal-retry-btn, #modal-dismiss-btn {
+  margin-top: 15px;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background: #2F96A3;
+  color: #fff;
+  transition: background 0.3s, transform 0.2s;
+}
+#modal-retry-btn:hover, #modal-dismiss-btn:hover {
+  background: #247d8b;
+  transform: scale(1.05);
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 20px;
+  }
+  .location-timezone {
+    font-size: 22px;
+  }
+  .temperature-degree {
+    font-size: 44px;
+  }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Font for a modern look -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <title>WeatherPro - Your Ultimate Weather Companion</title>
+</head>
+<body>
+  <div class="container">
+    <!-- Video Background (animated; replace with your actual video URLs if desired) -->
+    <video id="bg-video" autoplay muted loop></video>
+    
+    <!-- Content Overlay -->
+    <div class="content">
+      <!-- Header with extra spacing -->
+      <header class="header">
+        <h1>WeatherPro</h1>
+        <p>Your Ultimate Weather Companion</p>
+      </header>
+      
+      <!-- Live Clock -->
+      <div id="clock"></div>
+      
+      <!-- City Search Input with API-based Autocomplete -->
+      <div class="city-search">
+        <input type="text" id="city-input" placeholder="Enter city name..." autocomplete="off">
+        <div id="suggestions"></div>
+      </div>
+      
+      <!-- Location and Weather Icon -->
+      <div class="location">
+        <h1 class="location-timezone">Fetching location...</h1>
+        <img id="weather-icon" src="" alt="Weather Icon">
+      </div>
+  
+      <!-- Temperature Information -->
+      <div class="temperature">
+        <div class="degree-section">
+          <h2 class="temperature-degree">--</h2>
+          <span id="temperature-unit" title="Click to toggle °F/°C">°F</span>
+        </div>
+        <div class="temperature-description">Fetching weather...</div>
+      </div>
+  
+      <!-- Air Quality Information (Simplified) -->
+      <div class="air-quality">
+        <h3>Air Quality:</h3>
+        <p id="aq-description">Loading...</p>
+      </div>
+      
+      <!-- Refresh Button -->
+      <button id="refresh-btn">Get Your Current Location Weather</button>
+      
+      <!-- News Section -->
+      <div class="news-section">
+        <h3>Latest News</h3>
+        <div id="news">Loading news...</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Popup for Location Access Prompt -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <p id="modal-message">
+        We couldn't retrieve your location. Please enable location access in your browser settings or manually enter your city.
+      </p>
+      <button id="modal-retry-btn">Try Again</button>
+      <button id="modal-dismiss-btn">Not Now</button>
+    </div>
+  </div>
+  
+  <script src="App.js"></script>
+</body>
+</html>
