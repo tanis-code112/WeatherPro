@@ -29,7 +29,7 @@ cityInput.addEventListener('input', async () => {
   suggestionsDiv.innerHTML = '';
   if (inputVal.length === 0) return;
   try {
-    const lookupUrl = `http://api.weatherapi.com/v1/search.json?key=47e3da6b68e044efb8a51624250902&q=${inputVal}`;
+    const lookupUrl = `https://api.weatherapi.com/v1/search.json?key=47e3da6b68e044efb8a51624250902&q=${inputVal}`;
     const response = await fetch(lookupUrl);
     if (!response.ok) throw new Error(`Lookup API error: ${response.status}`);
     const data = await response.json();
@@ -51,46 +51,28 @@ cityInput.addEventListener('input', async () => {
   }
 });
 
-// Function to update the background video and fallback image based on weather condition
+// Function to update the background based on weather condition
 function updateBackground(condition) {
   const body = document.body;
   condition = condition.toLowerCase();
-  let videoSrc = "";
-  // Replace these placeholder video URLs with your actual MP4 links if available
+  
+  // Set gradient background based on condition
+  let gradient;
   if (condition.includes("clear")) {
-    videoSrc = "https://www.example.com/videos/sunny.mp4";
+    gradient = "linear-gradient(135deg, #87CEEB, #4682B4)";
   } else if (condition.includes("cloud")) {
-    videoSrc = "https://www.example.com/videos/cloudy.mp4";
+    gradient = "linear-gradient(135deg, #708090, #2F4F4F)";
   } else if (condition.includes("rain")) {
-    videoSrc = "https://www.example.com/videos/rain.mp4";
+    gradient = "linear-gradient(135deg, #4682B4, #000080)";
   } else if (condition.includes("snow")) {
-    videoSrc = "https://www.example.com/videos/snow.mp4";
+    gradient = "linear-gradient(135deg, #B0C4DE, #708090)";
   } else if (condition.includes("thunder")) {
-    videoSrc = "https://www.example.com/videos/thunderstorm.mp4";
+    gradient = "linear-gradient(135deg, #2F4F4F, #191970)";
   } else {
-    videoSrc = "https://www.example.com/videos/default.mp4";
+    gradient = "linear-gradient(135deg, rgb(47,150,163), rgb(48,62,143))";
   }
-  if (bgVideo) {
-    bgVideo.src = videoSrc;
-  }
-  // Fallback background image from Unsplash
-  let bgUrl = "";
-  if (condition.includes("clear")) {
-    bgUrl = "url('https://source.unsplash.com/1600x900/?sunny')";
-  } else if (condition.includes("cloud")) {
-    bgUrl = "url('https://source.unsplash.com/1600x900/?cloudy')";
-  } else if (condition.includes("rain")) {
-    bgUrl = "url('https://source.unsplash.com/1600x900/?rain')";
-  } else if (condition.includes("snow")) {
-    bgUrl = "url('https://source.unsplash.com/1600x900/?snow')";
-  } else if (condition.includes("thunder")) {
-    bgUrl = "url('https://source.unsplash.com/1600x900/?thunderstorm')";
-  } else {
-    bgUrl = "url('https://source.unsplash.com/1600x900/?weather')";
-  }
-  body.style.backgroundImage = bgUrl;
-  body.style.backgroundSize = "cover";
-  body.style.backgroundPosition = "center";
+  
+  body.style.background = gradient;
   body.style.animation = "bgFade 2s ease-in-out";
 }
 
@@ -104,24 +86,12 @@ document.head.appendChild(styleSheet);
 async function fetchWeather(city = null) {
   let weatherUrl = '';
   if (city) {
-    weatherUrl = `http://api.weatherapi.com/v1/current.json?key=47e3da6b68e044efb8a51624250902&q=${city}&aqi=yes`;
+    weatherUrl = `https://api.weatherapi.com/v1/current.json?key=47e3da6b68e044efb8a51624250902&q=${city}&aqi=yes`;
     await getWeatherData(weatherUrl);
   } else {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async position => {
-        locationGranted = true;
-        const lat = position.coords.latitude;
-        const long = position.coords.longitude;
-        weatherUrl = `http://api.weatherapi.com/v1/current.json?key=47e3da6b68e044efb8a51624250902&q=${lat},${long}&aqi=yes`;
-        await getWeatherData(weatherUrl);
-      }, error => {
-        console.error("Geolocation error:", error);
-        locationGranted = false;
-        showModal("We couldn't retrieve your location. Please enable location access in your browser settings for a personalized forecast.");
-      });
-    } else {
-      document.querySelector('.location-timezone').textContent = "Geolocation not supported.";
-    }
+    // If no city is provided, use Bangalore as default
+    weatherUrl = `https://api.weatherapi.com/v1/current.json?key=47e3da6b68e044efb8a51624250902&q=Bangalore&aqi=yes`;
+    await getWeatherData(weatherUrl);
   }
 }
 
@@ -133,7 +103,6 @@ async function getWeatherData(url) {
       throw new Error(`Weather API error: ${response.status}`);
     }
     const weatherData = await response.json();
-    console.log("Weather Data:", weatherData);
     
     document.querySelector('.location-timezone').textContent = weatherData.location.name;
     currentTempF = weatherData.current.temp_f;
@@ -186,18 +155,17 @@ async function getWeatherData(url) {
   }
 }
 
-// Function to fetch news using your provided news API endpoint
+// Function to fetch news using a CORS proxy
 async function fetchNews() {
   try {
-    const newsUrl = "https://newsdata.io/api/1/news?apikey=pub_68607099a85dfe4a75217e162cb2e74516468&q=news&country=in,jp,ru,lk,tr&language=en";
-    const response = await fetch(newsUrl);
+    const newsDiv = document.getElementById('news');
+    const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://newsdata.io/api/1/news?apikey=pub_68607099a85dfe4a75217e162cb2e74516468&q=weather&country=in&language=en'));
     if (!response.ok) throw new Error(`News API error: ${response.status}`);
     const newsData = await response.json();
-    console.log("News Data:", newsData);
-    const newsDiv = document.getElementById('news');
+    
     newsDiv.innerHTML = "";
     if (newsData.results && Array.isArray(newsData.results)) {
-      newsData.results.forEach(article => {
+      newsData.results.slice(0, 5).forEach(article => {
         const articleDiv = document.createElement('div');
         articleDiv.classList.add('news-item');
         const titleLink = document.createElement('a');
@@ -208,11 +176,11 @@ async function fetchNews() {
         newsDiv.appendChild(articleDiv);
       });
     } else {
-      newsDiv.textContent = "No news available.";
+      newsDiv.textContent = "No news available at the moment.";
     }
   } catch (error) {
     console.error(error);
-    document.getElementById('news').textContent = "Unable to fetch news.";
+    document.getElementById('news').textContent = "Unable to fetch news at the moment.";
   }
 }
 
@@ -230,24 +198,32 @@ tempUnitEl.addEventListener('click', () => {
   }
 });
 
-// Modal functionality: show modal with custom message
+// Modal functionality
 function showModal(message) {
   modal.style.display = "flex";
   document.getElementById('modal-message').textContent = message;
 }
 
-// Modal buttons: on retry, alert the user then attempt to fetch current location weather
 modalRetryBtn.addEventListener('click', () => {
-  alert("Please check your browser settings and enable location access to view your local forecast.");
   modal.style.display = "none";
   fetchWeather();
-});
-modalDismissBtn.addEventListener('click', () => {
-  modal.style.display = "none";
-  document.querySelector('.location-timezone').textContent = "Please enter your city below.";
 });
 
-// Always fetch current location weather when refresh button is clicked
+modalDismissBtn.addEventListener('click', () => {
+  modal.style.display = "none";
+  fetchWeather('Bangalore'); // Default to Bangalore when dismissed
+});
+
+// Initialize the app with Bangalore weather
+document.addEventListener('DOMContentLoaded', () => {
+  fetchWeather('Bangalore');
+});
+
+// Refresh button now fetches Bangalore weather if location is not granted
 refreshBtn.addEventListener('click', () => {
-  fetchWeather();
+  if (locationGranted) {
+    fetchWeather();
+  } else {
+    fetchWeather('Bangalore');
+  }
 });
